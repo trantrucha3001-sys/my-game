@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+
+<html lang="vi">
+<head>
+  <title>Săn Mảnh Ghép Cuối Cùng</title>
+
+  <meta property="og:title" content="SĂN MẢNH GHÉP Cuối Cùng">
+  <meta property="og:description" content="Bạn có tìm ra đáp án cuối cùng?">
+  <meta property="og:image" content="cover.jpg">
+</head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mảnh ghép cuối cùng</title>
+
+<style>
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    min-height:100vh;
+    font-family:'Segoe UI',sans-serif;
+    text-align:center;
+
+    background:
+    linear-gradient(
+        rgba(0,0,0,.55),
+        rgba(0,0,0,.55)
+    ),
+    url("https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=1600");
+
+    background-size:cover;
+    background-position:center;
+    background-attachment:fixed;
+}
+
+#loginBox{
+    width:420px;
+    margin:100px auto;
+
+    padding:35px;
+
+    background:rgba(255,255,255,0.12);
+
+    border-radius:20px;
+
+    backdrop-filter:blur(10px);
+
+    box-shadow:0 0 25px rgba(0,0,0,.35);
+}
+input{
+    width:100%;
+    padding:14px;
+
+    border:none;
+    border-radius:12px;
+
+    font-size:18px;
+}
+button{
+    padding:12px 24px;
+    margin:5px;
+
+    border:none;
+    border-radius:12px;
+
+    background:#f1c40f;
+    color:black;
+
+    font-weight:bold;
+    cursor:pointer;
+
+    transition:.2s;
+}
+
+button:hover{
+    transform:scale(1.05);
+}
+
+.board{
+    width:700px;
+    height:875px;
+    margin:auto;
+    position:relative;
+
+    border:3px solid rgba(255,255,255,.15);
+
+    border-radius:30px;
+
+    overflow:hidden;
+
+    box-shadow:
+        0 0 30px rgba(0,0,0,.3);
+}
+
+.picture{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    z-index:1;
+}
+
+.cover{
+    position:absolute;
+    z-index:2;
+
+    border:2px solid rgba(255,255,255,.2);
+
+    box-shadow:
+        inset 0 0 20px rgba(255,255,255,.1);
+
+    transition:.2s;
+}
+
+.yellow{
+    left:0;
+    top:0;
+    width:50%;
+    height:50%;
+    background:#f1c40f;
+}
+
+.green{
+    right:0;
+    top:0;
+    width:50%;
+    height:50%;
+    background:#27ae60;
+}
+
+.red{
+    left:0;
+    bottom:0;
+    width:50%;
+    height:50%;
+    background:#e74c3c;
+}
+
+.blue{
+    right:0;
+    bottom:0;
+    width:50%;
+    height:50%;
+    background:#3498db;
+}
+
+.center{
+position:absolute;
+
+width:350px;
+height:350px;
+
+left:175px;
+top:262px;
+
+background:white;
+
+border:4px solid black;
+border-radius:25px;
+z-index:10;
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+font-size:80px;
+font-weight:bold;
+}
+h1{
+    color:white;
+    font-size:48px;
+    margin-bottom:10px;
+}
+
+h2{
+    color:#eeeeee;
+    font-weight:500;
+}
+#teamName{
+    font-size:42px;
+    font-weight:800;
+
+    text-shadow:
+        0 0 10px rgba(255,255,255,.6),
+        0 0 20px rgba(255,255,255,.4);
+
+    margin-bottom:15px;
+}
+
+#timer{
+    margin-bottom:20px;
+    color:#e74c3c;
+}
+
+#result{
+    font-size:32px;
+    font-weight:800;
+
+    color:white;
+
+    margin-top:25px;
+
+    text-shadow:
+        0 0 10px rgba(255,255,255,.5),
+        0 0 20px rgba(46,204,113,.5);
+}
+</style>
+
+</head>
+
+<body>
+
+<div id="loginBox">
+
+<h1>Mảnh Ghép Cuối Cùng</h1>
+<h2>Đăng nhập đội</h2>
+
+<input
+    type="password"
+    id="password"
+    placeholder="Nhập mật mã">
+
+<br><br>
+
+<button onclick="login()">
+    Đăng nhập
+</button>
+```
+
+</div>
+
+<div id="gameArea" style="display:none;">
+
+```
+<h2 id="teamName"></h2>
+
+<h3 id="timer">⏱️ 00:00</h3>
+
+<div class="board">
+
+```
+<img src="/final-image" class="picture">
+
+<div id="yellow"
+     class="cover yellow"
+     onclick="showQuestion('yellow')">
+</div>
+
+<div id="green"
+     class="cover green"
+     onclick="showQuestion('green')">
+</div>
+
+<div id="red"
+     class="cover red"
+     onclick="showQuestion('red')">
+</div>
+
+<div id="blue"
+     class="cover blue"
+     onclick="showQuestion('blue')">
+</div>
+
+<div id="center" class="center">?</div>
+
+</div>
+<br>
+
+<button onclick="showQuestion('yellow')">🟨 Vàng</button>
+<button onclick="showQuestion('green')">🟩 Lục</button>
+<button onclick="showQuestion('blue')">🟦 Lam</button>
+<button onclick="showQuestion('red')">🟥 Đỏ</button>
+<button onclick="showQuestion('white')">⬜ Trắng</button>
+
+<div id="questionBox" style="display:none; margin-top:20px;">
+
+    <h3 id="questionTitle"></h3>
+
+    <img id="questionImage" width="1000">
+
+    <br><br>
+
+    <input
+        id="questionAnswer"
+        placeholder="Nhập đáp án">
+
+    <button onclick="submitAnswer()">
+        Trả lời
+    </button>
+
+</div>
+<br>
+
+<h3 style="
+    color:white;
+    font-size:28px;
+    margin-bottom:10px;
+">
+🔍 Bí ẩn đằng sau những mảnh ghép sẽ là gì đây?
+</h3>
+
+<p style="
+    color:#dddddd;
+    margin-top:0;
+    margin-bottom:20px;
+">
+Hãy nhập đáp án cuối cùng để khám phá bí mật. Và nhớ rằng các bạn chỉ có một cơ hội duy nhất thôi, chúc may mắn!
+</p>
+
+<input
+    id="answer"
+    type="text"
+    placeholder="Nhập đáp án">
+
+<button id="answerBtn" onclick="checkAnswer()">
+    Trả lời
+</button>
+
+<button onclick="logout()">
+    Đăng xuất
+</button>
+
+<p id="result"></p>
+```
+
+</div>
+
+<script>
+
+let seconds = 0;
+let timerInterval;
+let whiteStep = 1;
+let currentQuestion = "";
+let currentTeam = "";
+let finalAnswerUsed = false;
+
+const teamUsage = {
+
+    yellow:0,
+    green:0,
+    blue:0,
+    red:0
+};
+const teamNames = {
+    yellow : "ĐỘI VÀNG 🟨",
+    green  : "ĐỘI LỤC 🟩",
+    blue   : "ĐỘI LAM 🟦",
+    red    : "ĐỘI ĐỎ 🟥"
+};
+
+const pieceNames = {
+    red: "Đỏ",
+    yellow: "Vàng",
+    green: "Lục",
+    blue: "Lam",
+    white: "Trắng"
+};
+
+function startTimer(){
+
+    clearInterval(timerInterval);
+
+    timerInterval = setInterval(() => {
+
+        seconds++;
+
+        const min =
+            String(Math.floor(seconds / 60))
+            .padStart(2,"0");
+
+        const sec =
+            String(seconds % 60)
+            .padStart(2,"0");
+
+        document.getElementById("timer").innerText =
+            `⏱️ ${min}:${sec}`;
+socket.emit("timer-update", {
+    team: currentTeam,
+    time: `${min}:${sec}`
+});
+    },1000);
+
+}   
+
+function revealOwnPiece(team){
+
+    const piece =
+        document.getElementById(team);
+
+    if(piece){
+        piece.style.display = "none";
+    }
+
+}
+
+function enterGame(team){
+currentTeam = team;
+    localStorage.setItem("team", team);
+
+    document.getElementById("loginBox").style.display =
+        "none";
+
+    document.getElementById("gameArea").style.display =
+        "block";
+
+    const teamTitle =
+        document.getElementById("teamName");
+
+    teamTitle.innerText =
+        teamNames[team];
+
+    if(team === "yellow"){
+        teamTitle.style.color = "#f1c40f";
+    }
+
+    if(team === "green"){
+        teamTitle.style.color = "#27ae60";
+    }
+
+    if(team === "blue"){
+        teamTitle.style.color = "#3498db";
+    }
+
+    if(team === "red"){
+        teamTitle.style.color = "#e74c3c";
+    }
+
+    revealOwnPiece(team);
+
+startTimer();
+}
+
+function login(){
+
+    const pass =
+        document.getElementById("password").value;
+
+    if(pass === "vang312"){
+
+        enterGame("yellow");
+
+    }else if(pass === "luc231"){
+
+        enterGame("green");
+
+    }else if(pass === "lam213"){
+
+        enterGame("blue");
+
+    }else if(pass === "do321"){
+
+        enterGame("red");
+
+    }else{
+
+        alert("Sai mật mã!");
+
+    }
+
+}
+
+function logout(){
+
+    localStorage.removeItem("team");
+
+    location.reload();
+
+}
+
+function checkAnswer(){
+    if(finalAnswerUsed){
+    return;
+}
+
+    const answer =
+        document.getElementById("answer")
+        .value
+        .trim()
+        .toLowerCase();
+
+    if(
+        answer === "chuột" ||
+        answer === "tý" ||
+        answer === "ty" ||
+        answer === "ti" ||
+        answer === "tí"
+    ){
+
+        document.getElementById("yellow").style.display = "none";
+        document.getElementById("green").style.display = "none";
+        document.getElementById("red").style.display = "none";
+        document.getElementById("blue").style.display = "none";
+        document.getElementById("center").style.display = "none";
+
+        clearInterval(timerInterval);
+socket.emit("team-finished", {
+    team: currentTeam,
+    time: document.getElementById("timer").innerText
+});
+        document.getElementById("answer").disabled = true;
+        document.getElementById("answerBtn").disabled = true;
+
+        document.getElementById("result").innerHTML =
+    "🏆 CHÚC MỪNG!<br><br>" +
+    "✅ Hoàn thành trong " +
+    document.getElementById("timer").innerText;
+
+  }else{
+
+    finalAnswerUsed = true;
+localStorage.setItem("finalLocked", "true");
+    document.getElementById("answer").disabled = true;
+    document.getElementById("answerBtn").disabled = true;
+
+    document.getElementById("result").innerHTML =
+        "❌ RẤT TIẾC!<br><br>" +
+        "Đội của bạn đã sử dụng cơ hội duy nhất để trả lời đáp án cuối cùng.<br><br>" +
+        "🔒 Quyền trả lời đã bị khóa.";
+
+}
+
+}
+function showQuestion(color){
+
+    document.getElementById("questionBox")
+        .style.display = "block";
+
+    document.getElementById("questionTitle")
+        .innerText =
+        "Câu hỏi " + color;
+currentQuestion = color;
+
+if(color === "white"){
+
+    if(whiteStep === 1){
+
+        document.getElementById("questionImage")
+            .src =
+            "questions/1white.jpg";
+
+    }else{
+
+        document.getElementById("questionImage")
+            .src =
+            "questions/2white.jpg";
+
+    }
+
+    return;
+}
+    document.getElementById("questionImage")
+        .src =
+        "questions/" + color + ".jpg";
+}
+function submitAnswer(){
+
+    const answer =
+        document.getElementById("questionAnswer")
+        .value
+        .trim()
+        .toLowerCase();
+
+    // Ô trắng
+    if(currentQuestion === "white"){
+
+        if(
+            whiteStep === 1 &&
+            (
+                answer === "trái đất" ||
+                answer === "trai dat"
+            )
+        ){
+
+            alert("✅ Chính xác! Chuyển sang câu 2");
+
+            whiteStep = 2;
+
+            document.getElementById("questionImage").src =
+                "questions/2white.jpg";
+
+            document.getElementById("questionAnswer").value = "";
+
+            return;
+        }
+
+        if(
+            whiteStep === 2 &&
+            (
+                answer === "bài ca nhà tranh bị gió thu phá" ||
+                answer === "bai ca nha tranh bi gio thu pha"
+            )
+        ){
+
+            document.getElementById("center").style.display = "none";
+
+            document.getElementById("questionBox").style.display = "none";
+socket.emit("piece-opened", {
+    team: currentTeam,
+    piece: "white"
+});
+            alert("🎉 Đã mở ô trắng!");
+
+            return;
+        }
+    }
+
+    // Mảnh vàng = giờ hiện tại
+    if(currentQuestion === "yellow"){
+
+        const now = new Date();
+
+        const h = now.getHours();
+        const m = String(now.getMinutes()).padStart(2,"0");
+
+        const answer1 = `${h}:${m}`;
+        const answer2 = `${parseInt(h)}:${m}`;
+
+        if(answer === answer1 || answer === answer2){
+
+            document.getElementById("yellow").style.display = "none";
+
+            document.getElementById("questionBox").style.display = "none";
+if(answer === answer1 || answer === answer2){
+
+    document.getElementById("yellow").style.display = "none";
+
+    document.getElementById("questionBox").style.display = "none";
+
+    socket.emit("piece-opened", {
+        team: currentTeam,
+        piece: "yellow"
+    });
+
+    alert("🎉 Đã mở mảnh Vàng!");
+}
+        }else{
+
+            alert("❌ Sai đáp án!");
+        }
+
+        return;
+    }
+
+    // Mảnh lục
+    if(currentQuestion === "green"){
+       
+        if(answer === "checkmate"){
+
+            document.getElementById("green").style.display = "none";
+
+            document.getElementById("questionBox").style.display = "none";
+socket.emit("piece-opened", {
+    team: currentTeam,
+    piece: "green"
+});
+            alert("🎉 Đã mở mảnh Lục!");
+
+        }else{
+
+            alert("❌ Sai đáp án!");
+        }
+
+        return;
+    }
+
+    // Mảnh đỏ
+    if(currentQuestion === "red"){
+
+        if(answer === "brain"){
+
+    document.getElementById("red").style.display = "none";
+
+    document.getElementById("questionBox").style.display = "none";
+
+    socket.emit("piece-opened", {
+        team: currentTeam,
+        piece: "red"
+    });
+
+    alert("🎉 Đã mở mảnh Đỏ!");
+
+        }else{
+
+            alert("❌ Sai đáp án!");
+        }
+
+        return;
+    }
+
+    // Mảnh lam
+    if(currentQuestion === "blue"){
+
+        if(answer === "rainbow"){
+
+            document.getElementById("blue").style.display = "none";
+
+            document.getElementById("questionBox").style.display = "none";
+socket.emit("piece-opened", {
+    team: currentTeam,
+    piece: "blue"
+});
+            alert("🎉 Đã mở mảnh Lam!");
+
+        }else{
+
+            alert("❌ Sai đáp án!");
+        }
+
+        return;
+    }
+}
+
+</script>
+<script src="/socket.io/socket.io.js"></script>
+
+<script>
+const socket = io();
+</script>
+</body>
+</html>

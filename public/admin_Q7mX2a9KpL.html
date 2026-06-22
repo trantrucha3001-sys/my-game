@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Admin Panel</title>
+
+<style>
+
+body{
+    background:#0f172a;
+    color:white;
+    font-family:'Segoe UI',sans-serif;
+    padding:30px;
+}
+
+h1{
+    text-align:center;
+}
+
+.team{
+    background:#1e293b;
+    padding:20px;
+    margin:15px auto;
+    border-radius:15px;
+    width:500px;
+}
+
+</style>
+</head>
+
+<body>
+
+<h1>⚫ ADMIN PANEL ⚫</h1>
+
+<div class="team" id="yellow">
+🟨 ĐỘI VÀNG
+</div>
+
+<div class="team" id="green">
+🟩 ĐỘI LỤC
+</div>
+
+<div class="team" id="blue">
+🟦 ĐỘI LAM
+</div>
+
+<div class="team" id="red">
+🟥 ĐỘI ĐỎ
+</div>
+<script src="/socket.io/socket.io.js"></script>
+
+<script>
+const pieceNames = {
+    red: "Đỏ",
+    yellow: "Vàng",
+    green: "Lục",
+    blue: "Lam",
+    white: "Trắng"
+};
+const socket = io();
+
+console.log("Admin connected");
+
+socket.on("admin-update", (status) => {
+    console.log(status);
+   document.getElementById("yellow").innerHTML = `
+    <h2>🟨 ĐỘI VÀNG</h2>
+    <p>Lượt: ${status.yellow.used}/3</p>
+    ${
+    status.yellow.finishTime
+    ? `<p>🏆 Đội Vàng đã hoàn thành đáp án cuối lúc ${status.yellow.finishTime}</p>`
+    : `<p>⏱️ Đang chơi: ${status.yellow.currentTime}</p>`
+}
+    <p>Câu: ${
+        status.yellow.questions.length
+        ? status.yellow.questions.join(", ")
+        : "-"
+    }</p>
+    <p>🧩 Mảnh mở: ${
+        status.yellow.pieces.length
+        ? status.yellow.pieces.map(p => pieceNames[p]).join(", ")
+        : "-"
+    }</p>
+`;
+
+    document.getElementById("green").innerHTML = `
+    <h2>🟩 ĐỘI LỤC</h2>
+    <p>Lượt: ${status.green.used}/3</p>
+  ${
+    status.green.finishTime
+    ? `<p>🏆 Đội Lục đã hoàn thành đáp án cuối lúc ${status.green.finishTime}</p>`
+    : `<p>⏱️ Đang chơi: ${status.green.currentTime}</p>`
+}
+    <p>Câu: ${
+        status.green.questions.length
+        ? status.green.questions.join(", ")
+        : "-"
+    }</p>
+    <p>🧩 Mảnh mở: ${
+        status.green.pieces.length
+        ? status.green.pieces.map(p => pieceNames[p]).join(", ")
+        : "-"
+    }</p>
+`;
+
+    document.getElementById("blue").innerHTML = `
+    <h2>🟦 ĐỘI LAM</h2>
+    <p>Lượt: ${status.blue.used}/3</p>
+    ${
+    status.blue.finishTime
+    ? `<p>🏆 Đội Lam đã hoàn thành đáp án cuối lúc ${status.blue.finishTime}</p>`
+    : `<p>⏱️ Đang chơi: ${status.blue.currentTime}</p>`
+}
+    <p>Câu: ${
+        status.blue.questions.length
+        ? status.blue.questions.join(", ")
+        : "-"
+    }</p>
+
+   <p>🧩 Mảnh mở: ${
+    status.blue.pieces.length
+    ? status.blue.pieces.map(p => pieceNames[p]).join(", ")
+    : "-"
+}</p>
+`;
+
+    document.getElementById("red").innerHTML = `
+    <h2>🟥 ĐỘI ĐỎ</h2>
+    <p>Lượt: ${status.red.used}/3</p>
+    ${
+    status.red.finishTime
+    ? `<p>🏆 Đội Đỏ đã hoàn thành đáp án cuối lúc ${status.red.finishTime}</p>`
+    : `<p>⏱️ Đang chơi: ${status.red.currentTime}</p>`
+}
+    <p>Câu: ${
+        status.red.questions.length
+        ? status.red.questions.join(", ")
+        : "-"
+    }</p>
+    <p>🧩 Mảnh mở: ${
+        status.red.pieces.length
+        ? status.red.pieces.map(p => pieceNames[p]).join(", ")
+        : "-"
+    }</p>
+`;
+
+});
+
+</script>
+</body>
+</html>
