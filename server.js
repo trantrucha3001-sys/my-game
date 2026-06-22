@@ -9,6 +9,9 @@
     const path = require("path");
 
 app.use(express.static(path.join(__dirname, "public")));
+app.use("/questions",
+    express.static(path.join(__dirname, "questions"))
+);
 app.get("/final-image", (req, res) => {
     res.sendFile(
         path.join(__dirname, "Q7mX2a9KpL.jpg")
